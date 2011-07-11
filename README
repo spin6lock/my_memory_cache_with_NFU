@@ -1,0 +1,7 @@
+# coding=utf8
+This is a demo of cache algorithm NFU,or Not Frequently Used item remove first. I have used the position in the double-linked-list to indicate the 'get' frequency of the item. I keep wondering are there any implement other than linked-list suitable for this. And I just tried heap queue, but the change of item frequency makes me annoy.
+
+There is another problem of this memory_cache: the key duplicate. Now the unique of the key is obtained by the users. Maybe using the key with num to get item, as open hash-map implement in Memcache, is a better way. 
+
+
+这是一个基于NFU换页算法的缓存例子。NFU就是把不经常使用的对象率先移除的算法，详情可以参考维基百科。memory cache的实现主要利用了python的dict对象，通过dict对缓存对象进行管理。为了快捷删除使用率较低的对象，使用了双向链表来链接对象，表头的即为低频对象。我也试用过heap实现的优先队列进行管理，但是对于优先级的调整，官方推荐的是插入新项，移除对象的时候索引就会失效，而更新一次索引带来的是O(n)的复杂度，实现上既不优雅也不快速。
