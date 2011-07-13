@@ -1,0 +1,7 @@
+#Compiled source #
+###########
+*.pyc
+
+#Vim generated files#
+###########
+*.py~
