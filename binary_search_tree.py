@@ -13,7 +13,7 @@ class Node(object):
 		self.right = None
 
 	def __repr__(self):
-		return "key:%s" %self.key
+		return "key:%s, val:%s" %(self.key, self.value)
 
 class BinarySearchTree(object):
 	def __init__(self):
@@ -37,23 +37,48 @@ class BinarySearchTree(object):
 		pass
 
 	def find(self, key):
-		pass
+		return self.find_place(self.root, key, True)
 
-	def find_place(self, root, key):
+	def find_place(self, root, key, change=None):
 		if root is None:
 			return root
-		else:
-			if key > root.key:
-				if root.right is None:
-					return root
-				else:
-					return self.find_place(root.right, key)
+		if key > root.key:
+			if root.right is None:
+				return root
 			else:
-				if root.left is None:
-					return root
+				root.flag = LEFT if change else root.flag
+				return self.find_place(root.right, key)
+		else:
+			if root.left is None:
+				return root
+			else:
+				root.flag = RIGHT if change else root.flag
+				return self.find_place(root.left, key)
+
+	def shrink(self):
+		self.shrink_recursive(self.root)
+
+	def shrink_recursive(self, root):
+		def is_terminal_node(node):
+			return node.left is None and node.right is None
+
+		if root is None:
+			return None
+		if root.flag == LEFT:
+			if root.left:
+				if is_terminal_node(root.left):
+					del root.left
 				else:
-					return self.find_place(root.left, key)
-			
+					self.shrink_recursive(root.left)
+			root.flag = RIGHT
+		elif root.flag == RIGHT:
+			if root.right:
+				if is_terminal_node(root.right):
+					del root.right
+				else:
+					self.shrink_recursive(root.right)	
+			root.flag = LEFT
+	
 	def print_tree(self):
 		def print_node(node):
 			if node is None:
