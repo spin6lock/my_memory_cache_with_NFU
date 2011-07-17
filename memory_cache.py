@@ -34,9 +34,17 @@ class MemoryCache(object):
 
 	def shrink(self):
 		for i in range(1,self.current_size - self.size):
-			self.tree.shrink()
+			result = self.tree.shrink()
+			while not result:
+				result = self.tree.shrink()
 
 if __name__ == "__main__":
 	mc = MemoryCache()
-	mc.set(1, 2)
+	mc.set(1, 1)
 	print	mc.get(1)
+
+	for i in range(2,12):
+		mc.set(i, i)
+		for j in range(0, i):
+			mc.get(i)
+	print mc.tree.print_tree()
