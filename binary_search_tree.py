@@ -89,12 +89,12 @@ class BinarySearchTree(object):
 		return False
 	
 	def print_tree(self):
-		def print_node(node):
+		def print_node(node, depth = 0):
 			if node is None:
 				return
-			print_node(node.left)
-			print node
-			print_node(node.right)
+			print_node(node.left, depth + 1)
+			print "depth:", depth, node
+			print_node(node.right, depth + 1)
 		print_node(self.root)
 		
 

@@ -1,5 +1,6 @@
 #-*- coding=utf-8 -*-
 from binary_search_tree import BinarySearchTree
+import random
 
 class MemoryCache(object):
 	def __init__(self, size=100, capacity=120):
@@ -39,12 +40,14 @@ class MemoryCache(object):
 				result = self.tree.shrink()
 
 if __name__ == "__main__":
-	mc = MemoryCache()
+	mc = MemoryCache(90,95)
 	mc.set(1, 1)
 	print	mc.get(1)
 
-	for i in range(2,12):
-		mc.set(i, i)
+	sequence = [i for i in range(1, 100)]
+	random.shuffle(sequence)
+	for i in range(len(sequence)):
+		mc.set(sequence[i], sequence[i])
 		for j in range(0, i):
 			mc.get(i)
 	print mc.tree.print_tree()
